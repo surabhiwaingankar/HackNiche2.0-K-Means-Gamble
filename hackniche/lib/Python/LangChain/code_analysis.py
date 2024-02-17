@@ -82,4 +82,4 @@ print("The average is: " + result)
         """,
         format_instructions=format_instructions
     )
-model.invoke(messages)
+print(model.invoke(messages))
