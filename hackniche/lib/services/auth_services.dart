@@ -5,22 +5,38 @@ import 'package:hackniche/secrets/secrets.dart';
 
 class AuthServices {
   Future<void> signInWithGithub(BuildContext context) async {
-    final GitHubSignIn gitHubSignIn = GitHubSignIn(
+    try {
+      final GitHubSignIn gitHubSignIn = GitHubSignIn(
         clientId: Secrets.clientID,
         clientSecret: Secrets.clientSecret,
-        redirectUrl: Secrets.redirectUrl);
-    var result = await gitHubSignIn.signIn(context);
-    switch (result.status) {
-      case GitHubSignInResultStatus.ok:
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(result.token!)));
-        break;
-
-      case GitHubSignInResultStatus.cancelled:
-      case GitHubSignInResultStatus.failed:
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(result.errorMessage)));
-        break;
+        redirectUrl: Secrets.redirectUrl,
+      );
+      var result = await gitHubSignIn.signIn(context);
+      switch (result.status) {
+        case GitHubSignInResultStatus.ok:
+          // Handle successful sign-in
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Sign in successful')),
+          );
+          break;
+        case GitHubSignInResultStatus.cancelled:
+          // Handle sign-in cancellation
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Sign in cancelled')),
+          );
+          break;
+        case GitHubSignInResultStatus.failed:
+          // Handle sign-in failure
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Sign in failed: ${result.errorMessage}')),
+          );
+          break;
+      }
+    } catch (e) {
+      // Handle other exceptions
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
   }
 }
