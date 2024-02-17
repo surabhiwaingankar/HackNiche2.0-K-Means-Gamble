@@ -7,33 +7,41 @@ load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
 from langchain_community.chat_models import ChatOpenAI
-from langchain.agents import create_openai_tools_agent
-
-from langchain_core.prompts import (
-    ChatPromptTemplate,
-    MessagesPlaceholder,
-    HumanMessagePromptTemplate,
-    SystemMessagePromptTemplate,
-)
-
+from langchain.output_parsers import ResponseSchema
+from langchain.output_parsers import StructuredOutputParser
 model = ChatOpenAI(model="gpt-4-turbo-preview", temperature=0)
+def generate_code(input:str):
+    code_schema=ResponseSchema(
+        name="code",
+        description="This is the generated code"
+    )
+    explaination_schema=ResponseSchema(
+        name="explaination",
+        description="This is the explaination of the code"
+    )
+    response_schema=[code_schema,explaination_schema]
+    output_parser=StructuredOutputParser.from_response_schemas(response_schema)
+    format_instructions=output_parser.get_format_instructions()
+  
+    from langchain_core.prompts import (
+        ChatPromptTemplate,
+        # MessagesPlaceholder,
+        # HumanMessagePromptTemplate,
+        # SystemMessagePromptTemplate,
+    )
 
-system_template="""
-          You are an experienced programmer who is good at teaching.Your job is to write code and explain each step.
-          The code you are generating should be written in user's writing style of code.
-          You can see the user's github and how he/she writes his code using the tools provided to you.
-          For every good code written and explained you will be tipped 100$.
-        """ 
-human_template = """
-My github username is {username}
-{input}
-"""
+    
 
-prompt = ChatPromptTemplate.from_messages(
-    [
-        SystemMessagePromptTemplate.from_template(system_template),
-        MessagesPlaceholder(variable_name="chat_history", optional=True),
-        HumanMessagePromptTemplate.from_template(input_variables=["input","username"], template=human_template),
-        MessagesPlaceholder(variable_name="agent_scratchpad"),
-    ]
-)
+    prompt_template="""
+            Generate a program for the given input.Explain the code generated.
+            {input}.
+            {format_instructions}
+            """ 
+
+    prompt = ChatPromptTemplate.from_template(template=prompt_template)
+    messages=prompt.format_messages(
+        input=input,
+        format_instructions=format_instructions
+    )
+    return model.invoke(messages)
+print(generate_code("Write a program for hollow rectangle pattern in c"))
