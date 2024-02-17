@@ -18,29 +18,40 @@ class _ChatScreenState extends State<ChatScreen> {
   ChatUser myself = ChatUser(id: '1', firstName: "Srinath");
   ChatUser bot = ChatUser(id: '2', firstName: "Gemini");
   var url = '';
-  getData(ChatMessage m) async {
-    url = 'https://a499-14-139-125-227.ngrok-free.app/generate/code';
-    typing.add(bot);
-    messages.insert(0, m);
-    setState(() {});
-    Map<String, dynamic> data = {"input": m.text};
-    var encodeddata = jsonEncode(data);
-    final response = await http.post(Uri.parse(url), body: encodeddata);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      var Decodeddata = (jsonDecode(response.body));
-      print(Decodeddata.toString());
+Future<void> getData(ChatMessage m) async {
+  const url = 'https://bffd-14-139-125-227.ngrok-free.app/generate/code';
+  typing.add(bot);
+  messages.insert(0, m);
+  setState(() {});
 
-      ChatMessage chatdata = ChatMessage(
-          user: bot,
-          createdAt: DateTime.now(),
-          text: 'I am better than other chatbots');
-      messages.insert(0, chatdata);
-      typing.remove(bot);
-      setState(() {});
-    }
-    // await Future.delayed(Duration(seconds: 2));
+  Map<String, dynamic> data = {"input": m.text};
+  var encodedData = jsonEncode(data);
+
+  final response = await http.post(
+    Uri.parse(url),
+    headers: {"Content-Type": "application/json"},
+    body: encodedData,
+  );
+
+  print('Status code: ${response.statusCode}');
+
+  if (response.statusCode == 200) {
+    var decodedData = jsonDecode(response.body);
+    print('Response data: $decodedData');
+
+    ChatMessage chatData = ChatMessage(
+      user: bot,
+      createdAt: DateTime.now(),
+      text: "Code : \n\n${decodedData['code']}\n\nExplanation : \n\n${decodedData['explaination']}" ?? '',
+    );
+
+    messages.insert(0, chatData);
+    typing.remove(bot);
+    setState(() {});
+  } else {
+    print('Failed to get response. Status code: ${response.statusCode}');
   }
+}
 
   List<ChatUser> typing = [];
   List<ChatMessage> messages = [];
