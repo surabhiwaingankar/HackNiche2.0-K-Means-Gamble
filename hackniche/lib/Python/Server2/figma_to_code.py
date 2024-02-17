@@ -63,17 +63,3 @@ args = parser.parse_args()
 # Generate the code using the input argument
 response = generate_code(args.input_text)
 
-# Define the output file name
-file_name = "output.html"
-
-# Save the generated code to the output file
-with open(file_name, "w") as file:
-    file.write(response)
-    print(f"HTML file saved as {file_name}")
-
-# Open the HTML file in the default web browser
-webbrowser_open_successful = webbrowser.open(file_name)
-if webbrowser_open_successful:
-    print("HTML file opened successfully in the default web browser.")
-else:
-    print("Failed to open the HTML file in the default web browser.")

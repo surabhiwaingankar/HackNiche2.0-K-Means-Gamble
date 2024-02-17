@@ -7,7 +7,6 @@ load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
 from langchain_community.chat_models import ChatOpenAI
-from langchain.agents import create_openai_tools_agent
 from langchain.output_parsers import ResponseSchema
 from langchain.output_parsers import StructuredOutputParser
 
@@ -36,7 +35,11 @@ def analyse_code(input:str):
         name="defects",
         description="This is the defects count"
     )
-    response_schema=[code_smell_schema,code_duplication_schema,bug_detection_schema,defects_schema]
+    time_space_complexity_schema=ResponseSchema(
+        name="time_space_complexity",
+        description="This is the time and space complexity of the code"
+    )
+    response_schema=[code_smell_schema,code_duplication_schema,bug_detection_schema,defects_schema,time_space_complexity_schema]
     output_parser=StructuredOutputParser.from_response_schemas(response_schema)
     format_instructions=output_parser.get_format_instructions()
     # system_template="""
