@@ -19,14 +19,14 @@ from langchain_core.prompts import (
 model = ChatOpenAI(model="gpt-4-turbo-preview", temperature=0)
 
 system_template="""
-          You are an helpful assitant who performs code analysis.
-          On every code provided to you , you have to perform following analysis and give their numerical metrics:
+          You are a tool used for code analysis. Your job is to analyze the code provided to you.
+          On every code provided to you , you have to perform  the following analysis:
           Syntax and Style Check:
-          Code Smells Count :
+          Code Smells Count : 
            Code Duplication Percentage:
            Bug Detection :
            No of defects :
-        
+        Do not explain the code . Just provide the analysis and provide numeric count for each of the code above.
         """ 
 human_template = """
 {input}
@@ -36,12 +36,16 @@ prompt = ChatPromptTemplate.from_messages(
     [
         SystemMessagePromptTemplate.from_template(system_template),
         MessagesPlaceholder(variable_name="chat_history", optional=True),
-        HumanMessagePromptTemplate.from_template(input_variables=["input","username"], template=human_template),
+        HumanMessagePromptTemplate.from_template(input_variables=["input"], template=human_template),
         MessagesPlaceholder(variable_name="agent_scratchpad"),
     ]
 )
-model.invoke("""
+print (model.invoke("""
              #include <stdio.h>
+             #include <stdio.h>
+#include <stdlib.h>
+#include <stdlib.h>
+#include <stdlib.h>
 #include <stdlib.h>
 
 // Function prototypes
@@ -87,43 +91,5 @@ void merge(int arr[], int l, int m, int r) {
     int i, j, k;
     int n1 = m - l + 1;
     int n2 = r - m;
-
-    // Create temp arrays
-    int L[n1], R[n2];
-
-    // Copy data to temp arrays L[] and R[]
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
-
-    // Merge the temp arrays back into arr[l..r]
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = l; // Initial index of merged subarray
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-    // Copy the remaining elements of L[], if there are any
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-
-    // Copy the remaining elements of R[], if there are any
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-}
              """)
+)
