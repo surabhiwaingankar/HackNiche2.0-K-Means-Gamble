@@ -27,9 +27,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   List<ChatUser> typing = [];
   List<ChatMessage> messages = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -49,6 +51,45 @@ class _ChatScreenState extends State<ChatScreen> {
                     width: 1,
                     color: Colors.white,
                   ),
+                ),
+                child: Column(
+                  children:[
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              width:MediaQuery.of(context).size.width * 0.01,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("New Chat",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),),
+                            ),
+                            SizedBox(
+                              width:MediaQuery.of(context).size.width * 0.02,
+                            ),
+                            Icon(Icons.add,color: Colors.white,)
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(13, 13, 13, 1),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.white,
+                          ),
+                        ),
+
+                      ),
+                    )
+                  ]
                 ),
                 // You can add your sidebar content here
               ),
@@ -70,7 +111,14 @@ class _ChatScreenState extends State<ChatScreen> {
                         },
                         messages: messages,
                         inputOptions: InputOptions(),
-                        messageOptions: MessageOptions(),
+                        messageOptions: MessageOptions(
+                            // avatarBuilder:(ChatUser user,Function? onAvatarTap,Function? onAvatarLongPress){},
+                            currentUserContainerColor:Color.fromRGBO(52,	103,	81, 1),
+                            currentUserTextColor:Colors.white,
+                            textColor: Colors.white,
+                            containerColor:Color.fromRGBO(68,68,68, 1),
+
+                        ),
                       ),
                     ),
                   ],
