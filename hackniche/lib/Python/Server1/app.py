@@ -3,10 +3,9 @@ import requests
 import base64
 import code_generator, code_analysis, langchain_agent
 import json
-from flask_cors import CORS
+import bs4
 app = Flask(__name__)
 
-CORS(app)
 @app.route('/create/repo', methods=['POST'])
 def create_repo():
     data = request.get_json()

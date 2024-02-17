@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GlobalVariables {
+  static const url = "http://127.0.0.1:5000";
   static const String tagline =
       "Unleash Infinite Potential with AI-Driven Function Generation";
   static const String description =

@@ -4,6 +4,7 @@ import 'package:hackniche/global/globalvariables.dart';
 import 'package:hackniche/screens/chat_screen.dart';
 import 'package:hackniche/screens/version_control.dart';
 import 'package:hackniche/services/auth_services.dart';
+import 'package:hackniche/utils/dialog_box.dart';
 import 'package:hackniche/utils/gradient_button.dart';
 import 'package:hackniche/utils/onhover.dart';
 import 'package:hackniche/widgets/nav_button.dart';
@@ -94,6 +95,8 @@ class _LandingPageState extends State<LandingPage> {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
                                       const VersionControlScreen()));
+                              DialogBox.showdialogbox(context);
+                              
                             },
                             child: 'Version Control',
                             height: 42,

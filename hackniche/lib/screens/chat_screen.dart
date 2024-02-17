@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hackniche/global/globalvariables.dart';
 import 'package:http/http.dart ' as http;
 
 import '../widgets/nav_button.dart';
@@ -19,7 +20,7 @@ class _ChatScreenState extends State<ChatScreen> {
   ChatUser bot = ChatUser(id: '2', firstName: "Gemini");
   var url = '';
 Future<void> getData(ChatMessage m) async {
-  const url = 'https://bffd-14-139-125-227.ngrok-free.app/generate/code';
+  const url = '${GlobalVariables.url}/generate/code';
   typing.add(bot);
   messages.insert(0, m);
   setState(() {});
