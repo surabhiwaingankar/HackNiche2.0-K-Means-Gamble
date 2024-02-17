@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
 import requests
 import base64
+import code_generator, code_analysis
+import json
+
 app = Flask(__name__)
 
 @app.route('/create/repo', methods=['POST'])
@@ -86,5 +89,41 @@ def get_repos():
         print(repo_names)
     return jsonify({"repos": repo_names})
 
+@app.route('/generate/code', methods=['POST'])
+def generate_code():
+    data = request.get_json()
+    input = data["input"]
+    output = code_generator.generate_code(input)
+    # json_obj = json.loads(output)
+    string_output= str(output)
+    response=slice_json(string_output)
+    return response
+
+@app.route('/analyze/code', methods=['POST'])
+def analyze_code():
+    data = request.get_json()
+    code = data["input"]
+    output = code_analysis.analyse_code(code)
+    string_output= str(output)
+    response=slice_json(string_output)
+    return response
+
+@app.route('/ui/to/code', methods=['POST'])
+def ui_to_code():
+    
+    return output
+
+def slice_json(content):
+    start_index = content.find('{')
+    end_index = content.rfind('}')
+    json_part = content[start_index:end_index+1]
+    # print(json_part)
+    unescaped_json_string = json_part.encode().decode('unicode_escape')
+    print(unescaped_json_string)
+    json_data = json.loads(unescaped_json_string)
+    return json_data
+
 if __name__ == "__main__":
   app.run() 
+
+
