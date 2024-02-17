@@ -46,3 +46,4 @@ venv/
 .env
 
 node_modules/
+lib/secrets/

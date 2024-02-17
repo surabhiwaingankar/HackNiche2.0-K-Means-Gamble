@@ -7,11 +7,13 @@ class NavButton extends StatelessWidget {
   final String child;
   final double height;
   final double width;
+  final VoidCallback onPressed;
   const NavButton({
     super.key,
     required this.child,
     required this.height,
     required this.width,
+    required this.onPressed,
   });
 
   @override
@@ -25,7 +27,7 @@ class NavButton extends StatelessWidget {
               gradient: isHovered
                   ? GlobalVariables.colorEnabled
                   : GlobalVariables.colorDisabled,
-              onPressed: () {},
+              onPressed: onPressed,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Text(
@@ -46,11 +48,12 @@ class NavButtonInverted extends StatelessWidget {
   final String child;
   final double height;
   final double width;
+  final VoidCallback onPressed;
   const NavButtonInverted({
     super.key,
     required this.child,
     required this.height,
-    required this.width,
+    required this.width, required this.onPressed,
   });
 
   @override
@@ -65,7 +68,7 @@ class NavButtonInverted extends StatelessWidget {
               gradient: isHovered
                   ? GlobalVariables.colorDisabled
                   : GlobalVariables.colorEnabled,
-              onPressed: () {},
+              onPressed: onPressed,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Text(

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackniche/global/globalvariables.dart';
+import 'package:hackniche/screens/chat_screen.dart';
 import 'package:hackniche/services/auth_services.dart';
 import 'package:hackniche/utils/gradient_button.dart';
 import 'package:hackniche/utils/onhover.dart';
@@ -15,11 +16,17 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   AuthServices _authServices = AuthServices();
-  UserCredential? userCredential;
 
-  // void signInWithGithub() async {
-  //   userCredential = await _authServices.signInWithGithub();
-  // }
+  void signInWithGithub(context) async {
+    await _authServices.signInWithGithub(context);
+    if (context.isMounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Success'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,7 @@ class _LandingPageState extends State<LandingPage> {
                         fit: BoxFit.fill),
                   ),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,6 +60,7 @@ class _LandingPageState extends State<LandingPage> {
                       Row(
                         children: [
                           NavButton(
+                            onPressed: () {},
                             child: 'Home',
                             height: 42,
                             width: 80,
@@ -61,6 +69,10 @@ class _LandingPageState extends State<LandingPage> {
                             width: 10,
                           ),
                           NavButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ChatScreen()));
+                            },
                             child: 'Generate',
                             height: 42,
                             width: 120,
@@ -69,6 +81,7 @@ class _LandingPageState extends State<LandingPage> {
                             width: 10,
                           ),
                           NavButton(
+                            onPressed: () {},
                             child: 'Version Control',
                             height: 42,
                             width: 200,
@@ -77,6 +90,7 @@ class _LandingPageState extends State<LandingPage> {
                             width: 10,
                           ),
                           NavButton(
+                            onPressed: () {},
                             child: 'About',
                             height: 42,
                             width: 100,
@@ -95,7 +109,7 @@ class _LandingPageState extends State<LandingPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 100),
                         child: Column(
                           children: [
-                            Text(
+                            const Text(
                               GlobalVariables.tagline,
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -104,10 +118,10 @@ class _LandingPageState extends State<LandingPage> {
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.0),
                               child: Text(
                                 GlobalVariables.description,
@@ -119,7 +133,7 @@ class _LandingPageState extends State<LandingPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 60,
                             ),
                             GestureDetector(
@@ -132,7 +146,12 @@ class _LandingPageState extends State<LandingPage> {
                                 }
                               },
                               child: NavButtonInverted(
-                                  child: 'Get Started', height: 50, width: 200),
+                                  onPressed: () {
+                                    signInWithGithub(context);
+                                  },
+                                  child: 'Get Started',
+                                  height: 50,
+                                  width: 200),
                             )
                           ],
                         ),

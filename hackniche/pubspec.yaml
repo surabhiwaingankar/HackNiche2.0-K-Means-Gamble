@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^2.25.4
   firebase_auth: ^4.17.4
   dash_chat_2: ^0.0.20
+  github_sign_in_plus: ^0.0.2
 
 dev_dependencies:
   flutter_test:
