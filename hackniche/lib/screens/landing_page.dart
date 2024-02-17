@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackniche/global/globalvariables.dart';
 import 'package:hackniche/screens/chat_screen.dart';
+import 'package:hackniche/screens/version_control.dart';
 import 'package:hackniche/services/auth_services.dart';
 import 'package:hackniche/utils/gradient_button.dart';
 import 'package:hackniche/utils/onhover.dart';
@@ -15,25 +16,32 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  AuthServices _authServices = AuthServices();
+  final AuthServices _authServices = AuthServices();
 
   void signInWithGithub(context) async {
-    await _authServices.signInWithGithub(context);
-    if (context.isMounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Success'),
-        ),
+    try {
+      // Sign in with GitHub
+      await _authServices.signInWithGithub(context);
+
+      // Navigate to the next page upon successful login
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                const ChatScreen()), 
       );
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(builder: ((context, constraints) {
-        return Container(
-          child: SingleChildScrollView(
+      body: LayoutBuilder(
+        builder: ((context, constraints) {
+          return SingleChildScrollView(
             child: Stack(
               children: [
                 Container(
@@ -46,11 +54,11 @@ class _LandingPageState extends State<LandingPage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(left: 15),
                         child: Text(
                           'Title',
@@ -65,28 +73,32 @@ class _LandingPageState extends State<LandingPage> {
                             height: 42,
                             width: 80,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           NavButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ChatScreen()));
+                                  builder: (context) => const ChatScreen()));
                             },
                             child: 'Generate',
                             height: 42,
                             width: 120,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           NavButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      const VersionControlScreen()));
+                            },
                             child: 'Version Control',
                             height: 42,
                             width: 200,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           NavButton(
@@ -161,9 +173,9 @@ class _LandingPageState extends State<LandingPage> {
                 )
               ],
             ),
-          ),
-        );
-      })),
+          );
+        }),
+      ),
     );
   }
 }

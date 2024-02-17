@@ -5,6 +5,7 @@ class GlobalVariables {
       "Unleash Infinite Potential with AI-Driven Function Generation";
   static const String description =
       "Empower your coding journey with our AI Function Generator. Tailored solutions, precise algorithms, no trial and error. Revolutionize your approach to coding with AI innovation.";
+  static const String versionControlTitle = "Manage your GitHub account easily";
   static const colorEnabled = LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
