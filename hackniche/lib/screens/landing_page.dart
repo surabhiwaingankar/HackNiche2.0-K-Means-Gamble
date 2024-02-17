@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackniche/global/globalvariables.dart';
+import 'package:hackniche/services/auth_services.dart';
 import 'package:hackniche/utils/gradient_button.dart';
 import 'package:hackniche/utils/onhover.dart';
 import 'package:hackniche/widgets/nav_button.dart';
@@ -12,6 +14,13 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  AuthServices _authServices = AuthServices();
+  UserCredential? userCredential;
+
+  // void signInWithGithub() async {
+  //   userCredential = await _authServices.signInWithGithub();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +93,7 @@ class _LandingPageState extends State<LandingPage> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.symmetric(horizontal: 100),
-                        child: const Column(
+                        child: Column(
                           children: [
                             Text(
                               GlobalVariables.tagline,
@@ -113,8 +122,18 @@ class _LandingPageState extends State<LandingPage> {
                             SizedBox(
                               height: 60,
                             ),
-                            NavButtonInverted(
-                                child: 'Get Started', height: 50, width: 200)
+                            GestureDetector(
+                              onTap: () async {
+                                try {
+                                  // signInWithGithub();
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(e.toString())));
+                                }
+                              },
+                              child: NavButtonInverted(
+                                  child: 'Get Started', height: 50, width: 200),
+                            )
                           ],
                         ),
                       ),
