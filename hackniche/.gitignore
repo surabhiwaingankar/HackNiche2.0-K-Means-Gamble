@@ -44,3 +44,5 @@ app.*.map.json
 
 venv/
 .env
+
+node_modules/
