@@ -5,14 +5,11 @@ load_dotenv()
 
 # Get OpenAI keys from .env file
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
-import requests
-from bs4 import BeautifulSoup
-from langchain.chains import LLMRequestsChain,LLMChain
+
 from langchain_community.chat_models import ChatOpenAI
 from langchain.output_parsers import ResponseSchema
 from langchain.output_parsers import StructuredOutputParser
-
-
+model = ChatOpenAI(model="gpt-4-turbo-preview", temperature=0)
 def generate_code(input:str):
     code_schema=ResponseSchema(
         name="code",
