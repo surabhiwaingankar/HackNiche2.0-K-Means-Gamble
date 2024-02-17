@@ -103,10 +103,15 @@ def generate_code():
 def analyze_code():
     data = request.get_json()
     code = data["input"]
-    output = code_analysis.analyze_code(code)
+    output = code_analysis.analyse_code(code)
     string_output= str(output)
     response=slice_json(string_output)
     return response
+
+@app.route('/ui/to/code', methods=['POST'])
+def ui_to_code():
+    
+    return output
 
 def slice_json(content):
     start_index = content.find('{')
