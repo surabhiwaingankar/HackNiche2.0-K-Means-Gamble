@@ -144,7 +144,6 @@ class _VersionControlScreenState extends State<VersionControlScreen> {
                                                   0, 29, 133, 1),
                                               child: GestureDetector(
                                                 onTap:(){
-                                                  DialogBox.showdialogbox(context);
                                                 },
                                                 child: Container(
                                                   alignment: Alignment.topLeft,
@@ -175,18 +174,25 @@ class _VersionControlScreenState extends State<VersionControlScreen> {
                                               ),
                                               color: const Color.fromRGBO(
                                                   133, 7, 0, 1),
-                                              child: Container(
-                                                alignment: Alignment.topLeft,
-                                                height: 150,
-                                                width: 300,
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Delete Repository',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 30),
+                                               child: GestureDetector(
+                                                onTap:(){
+                                                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                                    return DeleteRepositoryScreen(username: DialogBox.username??'', apiKey: DialogBox.apiKey??'');
+                                                  }));
+                                                },
+                                                child: Container(
+                                                  alignment: Alignment.topLeft,
+                                                  height: 150,
+                                                  width: 300,
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Delete Repository',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 30),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
