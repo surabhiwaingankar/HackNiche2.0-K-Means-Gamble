@@ -10,16 +10,16 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.output_parsers import ResponseSchema
 from langchain.output_parsers import StructuredOutputParser
 model = ChatOpenAI(model="gpt-4-turbo-preview", temperature=0)
-def generate_code(input:str):
-    code_schema=ResponseSchema(
-        name="code",
-        description="This is the generated code"
+def analyse_performance(input:str):
+    time_complexity_schema=ResponseSchema(
+        name="time_complexity",
+        description="This is the time complexity of the code"
     )
-    explaination_schema=ResponseSchema(
-        name="explaination",
-        description="This is the explaination of the code"
+    space_complexity_schema=ResponseSchema(
+        name="space_complexity",
+        description="This is the space complexity of the code"
     )
-    response_schema=[code_schema,explaination_schema]
+    response_schema=[time_complexity_schema, space_complexity_schema]
     output_parser=StructuredOutputParser.from_response_schemas(response_schema)
     format_instructions=output_parser.get_format_instructions()
   
@@ -33,7 +33,7 @@ def generate_code(input:str):
     
 
     prompt_template="""
-            Generate a program for the given input.Explain the code generated.
+            Tell me the time and space complexity of the code
             {input}.
             {format_instructions}
             """ 
