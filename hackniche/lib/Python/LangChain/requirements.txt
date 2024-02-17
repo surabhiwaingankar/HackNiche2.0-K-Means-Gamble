@@ -1,1 +1,2 @@
 langchain
+python-dotenv
