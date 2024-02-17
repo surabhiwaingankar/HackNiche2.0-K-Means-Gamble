@@ -1,5 +1,8 @@
 langchain
 python-dotenv
+openai
+embedchain
 flask-cors
 requests
 flask
+langchain-community

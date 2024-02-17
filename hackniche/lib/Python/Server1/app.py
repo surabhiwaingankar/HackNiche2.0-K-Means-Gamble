@@ -9,6 +9,7 @@ app = Flask(__name__)
 @app.route('/create/repo', methods=['POST'])
 def create_repo():
     data = request.get_json()
+    print(data)
     name = data["name"]
     description = data["description"]
     private = data["private"]

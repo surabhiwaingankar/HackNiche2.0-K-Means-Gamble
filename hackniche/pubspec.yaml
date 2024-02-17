@@ -40,6 +40,7 @@ dependencies:
   dash_chat_2: ^0.0.20
   github_sign_in_plus: ^0.0.2
   http: ^0.13.6
+  fl_chart: ^0.66.2
 
 dev_dependencies:
   flutter_test:
