@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hackniche/screens/chat_screen.dart';
 import 'package:hackniche/screens/landing_page.dart';
 
 void main() async {
@@ -23,7 +25,20 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(useMaterial3: true, fontFamily: 'Figtree'),
-      home: const LandingPage(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasData) {
+            return ChatScreen();
+          } else if (snapshot.hasError) {
+            return Text('Something went wrong!');
+          } else {
+            return LandingPage();
+          }
+        },
+      ),
     );
   }
 }

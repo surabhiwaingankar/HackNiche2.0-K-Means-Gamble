@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart ' as http;
 
 import '../widgets/nav_button.dart';
 
@@ -14,19 +17,41 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   ChatUser myself = ChatUser(id: '1', firstName: "Srinath");
   ChatUser bot = ChatUser(id: '2', firstName: "Gemini");
-  getData(ChatMessage m) async {
-    typing.add(bot);
-    messages.insert(0, m);
-    setState(() {});
-    await Future.delayed(Duration(seconds: 2));
-    ChatMessage data = ChatMessage(
-        user: bot,
-        createdAt: DateTime.now(),
-        text: 'I am better than other chatbots');
-    messages.insert(0, data);
+  var url = '';
+Future<void> getData(ChatMessage m) async {
+  const url = 'https://bffd-14-139-125-227.ngrok-free.app/generate/code';
+  typing.add(bot);
+  messages.insert(0, m);
+  setState(() {});
+
+  Map<String, dynamic> data = {"input": m.text};
+  var encodedData = jsonEncode(data);
+
+  final response = await http.post(
+    Uri.parse(url),
+    headers: {"Content-Type": "application/json"},
+    body: encodedData,
+  );
+
+  print('Status code: ${response.statusCode}');
+
+  if (response.statusCode == 200) {
+    var decodedData = jsonDecode(response.body);
+    print('Response data: $decodedData');
+
+    ChatMessage chatData = ChatMessage(
+      user: bot,
+      createdAt: DateTime.now(),
+      text: "Code : \n\n${decodedData['code']}\n\nExplanation : \n\n${decodedData['explaination']}" ?? '',
+    );
+
+    messages.insert(0, chatData);
     typing.remove(bot);
     setState(() {});
+  } else {
+    print('Failed to get response. Status code: ${response.statusCode}');
   }
+}
 
   List<ChatUser> typing = [];
   List<ChatMessage> messages = [];
@@ -34,7 +59,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -43,10 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-
-
-              ],
+              children: [],
             ),
             Expanded(
               child: Row(
@@ -54,7 +75,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   // Left Container (Sidebar or List of Contacts)
                   Container(
                     width: MediaQuery.of(context).size.width * 0.2,
-              
                     color: Color.fromRGBO(13, 13, 13, 1),
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -66,102 +86,92 @@ class _ChatScreenState extends State<ChatScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      child: Column(
-                        children:[
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * 0.08,
-                              child:Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SizedBox(
-                                    width:MediaQuery.of(context).size.width * 0.01,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("New Chat",style: TextStyle(
+                      child: Column(children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.08,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.01,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "New Chat",
+                                    style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
-                                    ),),
+                                    ),
                                   ),
-                                  SizedBox(
-                                    width:MediaQuery.of(context).size.width * 0.02,
-                                  ),
-                                  Icon(Icons.add,color: Colors.white,)
-                                ],
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(13, 13, 13, 1),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.white,
                                 ),
-                              ),
-              
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                ),
+                                Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                )
+                              ],
                             ),
-                          )
-                        ]
-                      ),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(13, 13, 13, 1),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )
+                      ]),
                       // You can add your sidebar content here
                     ),
                   ),
                   // Right Container (Main Chat Area)
                   Container(
                       width: MediaQuery.of(context).size.width * 0.8,
-
                       color: Color.fromRGBO(26, 26, 26, 1),
                       child: Column(
                         children: [
-                          Row(
-
-                            children: [
-
-                              NavButton(
-                                onPressed: () {},
-                                child: 'Home',
-                                height: 42,
-                                width: 80,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              NavButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ChatScreen()));
-                                },
-                                child: 'Generate',
-                                height: 42,
-                                width: 120,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              NavButton(
-                                onPressed: () {},
-                                child: 'Version Control',
-                                height: 42,
-                                width: 200,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              NavButton(
-                                onPressed: () {},
-                                child: 'About',
-                                height: 42,
-                                width: 100,
-                              )
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                NavButton(
+                                  onPressed: () {},
+                                  child: 'Code analysis',
+                                  height: 42,
+                                  width: 250,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                NavButton(
+                                  onPressed: () {},
+                                  child: 'Figma to code generator',
+                                  height: 42,
+                                  width: 300,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
+                            ),
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.85,
                             color: Color.fromRGBO(26, 26, 26, 1),
                             child: DashChat(
-              
                               typingUsers: typing,
                               currentUser: myself,
                               onSend: (ChatMessage message) {
@@ -173,10 +183,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                   color: Colors.grey,
                                 ),
                                 inputDecoration: InputDecoration(
-                                  focusedBorder:OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.grey),
-                                    borderRadius:BorderRadius.circular(10),
-                                  ) ,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                   //isDense: true,
                                   hintText: "Start conversation",
                                   hintStyle: TextStyle(
@@ -200,13 +210,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                               ),
                               messageOptions: MessageOptions(
-              
-                                  // avatarBuilder:(ChatUser user,Function? onAvatarTap,Function? onAvatarLongPress){},
-                                  currentUserContainerColor:Color.fromRGBO(52,	103,	81, 1),
-                                  currentUserTextColor:Colors.white,
-                                  textColor: Colors.white,
-                                  containerColor:Color.fromRGBO(68,68,68, 1),
-              
+                                // avatarBuilder:(ChatUser user,Function? onAvatarTap,Function? onAvatarLongPress){},
+                                currentUserContainerColor:
+                                    Color.fromRGBO(52, 103, 81, 1),
+                                currentUserTextColor: Colors.white,
+                                textColor: Colors.white,
+                                containerColor: Color.fromRGBO(68, 68, 68, 1),
                               ),
                             ),
                           ),
