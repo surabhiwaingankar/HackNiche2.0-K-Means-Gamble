@@ -2,7 +2,11 @@ from langchain_community.chat_models import ChatOpenAI
 from dotenv import load_dotenv
 load_dotenv()
 from langchain.chains import LLMRequestsChain,LLMChain
-
+from langchain.prompts.chat import (
+    ChatPromptTemplate,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+)
 
 
  
