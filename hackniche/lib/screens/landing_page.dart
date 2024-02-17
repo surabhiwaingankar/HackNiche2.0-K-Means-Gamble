@@ -17,11 +17,11 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   final AuthServices _authServices = AuthServices();
-
+  UserCredential? userCredential;
   void signInWithGithub(context) async {
     try {
       // Sign in with GitHub
-      await _authServices.signInWithGithub(context);
+      userCredential = await _authServices.signInWithGitHub();
 
       // Navigate to the next page upon successful login
       Navigator.push(
@@ -33,6 +33,7 @@ class _LandingPageState extends State<LandingPage> {
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
+          print(e.toString());
     }
   }
 
