@@ -4,3 +4,4 @@ openai
 flask-cors
 requests
 flask
+langchain-community

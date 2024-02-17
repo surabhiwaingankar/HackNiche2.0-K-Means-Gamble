@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
 import base64
-import code_generator, code_analysis
+import code_generator, code_analysis, langchain_agent
 import json
 from flask_cors import CORS
 app = Flask(__name__)
@@ -109,10 +109,18 @@ def analyze_code():
     response=slice_json(string_output)
     return response
 
-@app.route('/ui/to/code', methods=['POST'])
-def ui_to_code():
+# @app.route('/ui/to/code', methods=['POST'])
+# def ui_to_code():
     
-    return output
+@app.route('/generate/langchain', methods=['POST'])
+def scrape_docs():
+    data = request.get_json()
+    input = data["input"]
+    output = langchain_agent.scraping_documentation(input)
+    print(output)
+    string_output= str(output)
+    response=slice_json(string_output)
+    return response
 
 def slice_json(content):
     start_index = content.find('{')
