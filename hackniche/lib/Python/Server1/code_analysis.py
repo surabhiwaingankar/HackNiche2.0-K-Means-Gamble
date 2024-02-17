@@ -36,7 +36,7 @@ def analyse_code(input:str):
         description="This is the defects count"
     )
     time_complexity_schema=ResponseSchema(
-        name="time_space_complexity",
+        name="time_complexity",
         description="This is the time  complexity of the code"
     )
     space_complexity_schema=ResponseSchema(
@@ -47,7 +47,7 @@ def analyse_code(input:str):
         name="ways to improve",
         description="these are the ways through which u can improve the code."
     )
-    response_schema=[code_smell_schema,code_duplication_schema,bug_detection_schema,defects_schema,time_space_complexity_schema]
+    response_schema=[code_smell_schema,code_duplication_schema,bug_detection_schema,defects_schema,time_complexity_schema,space_complexity_schema]
     output_parser=StructuredOutputParser.from_response_schemas(response_schema)
     format_instructions=output_parser.get_format_instructions()
     # system_template="""
