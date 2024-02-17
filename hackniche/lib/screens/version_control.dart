@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hackniche/global/globalvariables.dart';
+import 'package:hackniche/screens/create_repository.dart';
+import 'package:hackniche/utils/dialog_box.dart';
 import 'package:hackniche/utils/onhover.dart';
 
 class VersionControlScreen extends StatefulWidget {
@@ -20,7 +22,7 @@ class _VersionControlScreenState extends State<VersionControlScreen> {
     super.initState();
     // Access displayName after Firebase is initialized
     if (_auth.currentUser != null) {
-      username = _auth.currentUser!.displayName ?? "No Username"; // Null check
+      username = _auth.currentUser!.displayName ?? "surabhiwaingankar"; // Null check
     } else {
       username = "No User"; // Set default value if currentUser is null
     }
@@ -105,18 +107,25 @@ class _VersionControlScreenState extends State<VersionControlScreen> {
                                               ),
                                               color: const Color.fromRGBO(
                                                   0, 133, 29, 1),
-                                              child: Container(
-                                                alignment: Alignment.topLeft,
-                                                height: 150,
-                                                width: 300,
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Create Repository',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 30),
+                                              child: GestureDetector(
+                                                onTap: (){
+                                                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                                    return CreateRepositoryScreen(username: DialogBox.username??'', apiKey: DialogBox.apiKey??'');
+                                                  }));
+                                                },
+                                                child: Container(
+                                                  alignment: Alignment.topLeft,
+                                                  height: 150,
+                                                  width: 300,
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Create Repository',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 30),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -133,18 +142,23 @@ class _VersionControlScreenState extends State<VersionControlScreen> {
                                               ),
                                               color: const Color.fromRGBO(
                                                   0, 29, 133, 1),
-                                              child: Container(
-                                                alignment: Alignment.topLeft,
-                                                height: 150,
-                                                width: 300,
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Edit Repository',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 30),
+                                              child: GestureDetector(
+                                                onTap:(){
+                                                  DialogBox.showdialogbox(context);
+                                                },
+                                                child: Container(
+                                                  alignment: Alignment.topLeft,
+                                                  height: 150,
+                                                  width: 300,
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Edit Repository',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 30),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
