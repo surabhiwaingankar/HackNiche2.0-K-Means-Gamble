@@ -26,7 +26,7 @@ class _LandingPageState extends State<LandingPage> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/images/CosmicHero.png'),
-                        fit: BoxFit.cover),
+                        fit: BoxFit.fill),
                   ),
                 ),
                 const Padding(

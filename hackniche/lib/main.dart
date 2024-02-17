@@ -1,7 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hackniche/screens/landing_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyCKg5WOf-9akQ3Rd3bZz9c25MmvPpbrXX0",
+          appId: "1:445477704816:web:98a8f204bf714d930f50b5",
+          messagingSenderId: "445477704816",
+          projectId: "fir-app-5e336"));
   runApp(const MyApp());
 }
 
