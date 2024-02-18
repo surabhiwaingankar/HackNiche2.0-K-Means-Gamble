@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hackniche/global/globalvariables.dart';
 import 'package:hackniche/screens/create_repository.dart';
 import 'package:hackniche/screens/delete_repo.dart';
+import 'package:hackniche/screens/edit_repository.dart';
 import 'package:hackniche/utils/dialog_box.dart';
 import 'package:hackniche/utils/onhover.dart';
 
@@ -150,14 +151,21 @@ class _VersionControlScreenState extends State<VersionControlScreen> {
                                                   alignment: Alignment.topLeft,
                                                   height: 150,
                                                   width: 300,
-                                                  child: const Center(
-                                                    child: Text(
-                                                      'Edit Repository',
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 30),
+                                                  child: GestureDetector(
+                                                    onTap: (){
+                                                       Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                                    return EditRepository(username: DialogBox.username??'', apiKey: DialogBox.apiKey??'');
+                                                  }));
+                                                    },
+                                                    child: const Center(
+                                                      child: Text(
+                                                        'Edit Repository',
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 30),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

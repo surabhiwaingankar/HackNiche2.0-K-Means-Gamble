@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hackniche/widgets/nav_button.dart';
+import 'package:hackniche/global/globalvariables.dart';
+import 'package:http/http.dart' as http;
 
 class EditRepository extends StatefulWidget {
   final String username;
@@ -16,8 +20,31 @@ class _EditRepositoryState extends State<EditRepository> {
   @override
   Widget build(BuildContext context) {
 
-    createFile(){
-      
+    createFile() async {
+      const url = '${GlobalVariables.url}/upload/file';
+
+  Map<String, dynamic> data = {"username":widget.username,"token":widget.apiKey,"repo_name":_nameController.text,"file_name":base64Encode(utf8.encode(_fileController.text) )};
+  var encodedData = jsonEncode(data);
+
+  final response = await http.post(
+    Uri.parse(url),
+    headers: {"Content-Type": "application/json"},
+    body: encodedData,
+  );
+
+  print('Status code: ${response.statusCode}');
+
+  if (response.statusCode == 200) {
+    var decodedData = jsonDecode(response.body);
+    print('Response data: $decodedData');
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(decodedData['message'],),),);
+
+
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to get response. Status code: ${response.statusCode}',),),);
+
+    print('Failed to get response. Status code: ${response.statusCode}');
+  }
       
     }
 
@@ -65,7 +92,7 @@ class _EditRepositoryState extends State<EditRepository> {
            
            const SizedBox(height: 50,),
            NavButtonInverted(child: 'Create file', height: 70, width: 200, onPressed: (){
-            
+            createFile();
            })
           ]),
         ),
