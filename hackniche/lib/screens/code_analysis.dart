@@ -19,7 +19,7 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
   List<FlSpot> dummyData3 = [];
 
  
-  List colors =[Colors.yellow,Colors.blue,Colors.orange,Colors.purple];
+  List colors =[Colors.amber,Colors.green,Colors.orange,Colors.purple,Colors.white];
 
   dynamic bugDetection;
   dynamic codeDuplication;
@@ -208,12 +208,7 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                             LineChartData(
                               borderData: FlBorderData(show: false),
                               lineBarsData: [
-                                LineChartBarData(
-                                  spots: dummyData1,
-                                  isCurved: true,
-                                  barWidth: 3,
-                                  color: Colors.indigo,
-                                ),
+                                
                                 LineChartBarData(
                                   spots: dummyData2,
                                   isCurved: true,
@@ -268,11 +263,11 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                                       children: [
                                         
                                         ListTile(trailing: Icon(Icons.circle_rounded,color: colors[0],),title:Text("code_smell:${codeSmell}",style:TextStyle(color: Colors.white))),
-                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[1],),title:Text("code_duplication:${codeDuplication}",style:TextStyle(color: Colors.white))),
-                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[3],),title:Text("bug_detection:${bugDetection}",style:TextStyle(color: Colors.white))),
-                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[0],),title:Text("defects:${defects}",style:TextStyle(color: Colors.white))),
-                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[0],),title:Text("time_complexity:${timeComplexity}",style:TextStyle(color: Colors.white))),
-                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[0],),title:Text("space_complexity:${spaceComplexity}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[3],),title:Text("code_duplication:${codeDuplication}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[1],),title:Text("bug_detection:${bugDetection}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[2],),title:Text("defects:${defects}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[4],),title:Text("time_complexity:${timeComplexity}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[4],),title:Text("space_complexity:${spaceComplexity}",style:TextStyle(color: Colors.white))),
 
 
 
