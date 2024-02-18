@@ -11,7 +11,7 @@ class DeleteRepositoryScreen extends StatefulWidget {
   const DeleteRepositoryScreen({super.key, required this.username, required this.apiKey});
 
   @override
-  State<DeleteRepositoryScreen> createState() => _CreateRepositoryScreenState();
+  State<DeleteRepositoryScreen> createState() => _DeleteRepositoryScreenState();
 }
 
 class _DeleteRepositoryScreenState extends State<DeleteRepositoryScreen> {
