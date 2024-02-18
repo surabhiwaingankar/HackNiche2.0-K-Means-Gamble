@@ -10,7 +10,7 @@ langchain_database.add("https://python.langchain.com/docs/modules/model_io/")
 langchain_database.add("https://python.langchain.com/docs/modules/agents/")
 langchain_database.add("https://python.langchain.com/docs/modules/agents/tools/")
 langchain_database.add("https://python.langchain.com/docs/modules/chains")
-def langchain_agent(query):   
+def langchain_generator(query):   
     return langchain_database.query(query)
 
 # print(langchain_agent("How to create a agent in LangChain?"))
