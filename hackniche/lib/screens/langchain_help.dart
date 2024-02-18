@@ -9,24 +9,24 @@ import 'package:http/http.dart ' as http;
 
 import '../widgets/nav_button.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+class LanchainHelp extends StatefulWidget {
+  const LanchainHelp({Key? key}) : super(key: key);
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<LanchainHelp> createState() => _LanchainHelpState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _LanchainHelpState extends State<LanchainHelp> {
   ChatUser myself = ChatUser(id: '1', firstName: "Srinath");
   ChatUser bot = ChatUser(id: '2', firstName: "Gemini");
   var url = '';
 Future<void> getData(ChatMessage m) async {
-  const url = '${GlobalVariables.url}/generate/code';
+  const url = '${GlobalVariables.url}/generate/langchain';
   typing.add(bot);
   messages.insert(0, m);
   setState(() {});
 
-  Map<String, dynamic> data = {"input": m.text};
+  Map<String, dynamic> data = {"query": m.text};
   var encodedData = jsonEncode(data);
 
   final response = await http.post(
@@ -44,7 +44,7 @@ Future<void> getData(ChatMessage m) async {
     ChatMessage chatData = ChatMessage(
       user: bot,
       createdAt: DateTime.now(),
-      text: "Code : \n\n${decodedData['code']}\n\nExplanation : \n\n${decodedData['explaination']}" ?? '',
+      text: "Response : \n\n${decodedData['result']}"?? '',
     );
 
     messages.insert(0, chatData);
@@ -130,8 +130,7 @@ Future<void> getData(ChatMessage m) async {
                               ),
                             ),
                           ),
-                        ),
-                        Text(""),
+                        )
                       ]),
                       // You can add your sidebar content here
                     ),

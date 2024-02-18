@@ -18,8 +18,8 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
   List<FlSpot> dummyData2 = [];
   List<FlSpot> dummyData3 = [];
 
-  List property =["bug_detection","code_duplication","code_smell","defects","space_complexity","time_complexity"];
-  List variable =["bugDetection","codeDuplication","codeSmell","defects","spaceComplexity","timeComplexity"];
+ 
+  List colors =[Colors.yellow,Colors.blue,Colors.orange,Colors.purple];
 
   dynamic bugDetection;
   dynamic codeDuplication;
@@ -149,29 +149,35 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                             color: Colors.white,
                           ),
                         ),
-                        child: PieChart(
+                        child:isLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : PieChart(
                           PieChartData(
                             centerSpaceRadius: 2,
                             borderData: FlBorderData(show: false),
                             sectionsSpace: 2,
                             sections: [
                               PieChartSectionData(
-                                value: 35,
+                                value:  1,
                                 color: Colors.purple,
                                 radius: 150,
                               ),
                               PieChartSectionData(
-                                value: 40,
+                                value: 5,
                                 color: Colors.amber,
                                 radius: 150,
                               ),
                               PieChartSectionData(
-                                value: 55,
+                                value: bugDetection??1,
                                 color: Colors.green,
                                 radius: 150,
                               ),
                               PieChartSectionData(
-                                value: 70,
+                                value: defects??1,
                                 color: Colors.orange,
                                 radius: 150,
                               ),
@@ -182,7 +188,13 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                       SizedBox(width: 20),
                       // Line Chart
                       Expanded(
-                        child: Container(
+                        child: isLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                :Container(
                           decoration: BoxDecoration(
                             color: Color.fromRGBO(13, 13, 13, 1),
                             borderRadius: BorderRadius.circular(20),
@@ -226,7 +238,13 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
+                        child: isLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                :Container(
                           height: MediaQuery.of(context).size.height * 0.3,
                           decoration: BoxDecoration(
                             color: Colors.black,
@@ -244,11 +262,26 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                                       color: Colors.white,
                                     ),
                                   )
-                                : Column(
-                                  children: [
-                                    for (int i=0;i<4;i++)
-                                    ListTile()
-                                  ],
+                                : Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[0],),title:Text("code_smell:${codeSmell}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[1],),title:Text("code_duplication:${codeDuplication}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[3],),title:Text("bug_detection:${bugDetection}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[0],),title:Text("defects:${defects}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[0],),title:Text("time_complexity:${timeComplexity}",style:TextStyle(color: Colors.white))),
+                                        ListTile(trailing: Icon(Icons.circle_rounded,color: colors[0],),title:Text("space_complexity:${spaceComplexity}",style:TextStyle(color: Colors.white))),
+
+
+
+
+
+
+                                      ],
+                                    ),
+                                  ),
                                 )
                           ),
                         ),
@@ -266,8 +299,12 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                             ),
                           ),
                           child: isLoading
-                              ? SizedBox.shrink()
-                              : Padding(
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
                                     "ways to improve: $improve",
