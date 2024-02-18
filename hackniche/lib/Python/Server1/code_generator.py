@@ -7,6 +7,8 @@ import requests
 # Get OpenAI keys from .env file
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
+
+
 from langchain_community.chat_models import ChatOpenAI
 from langchain.output_parsers import ResponseSchema
 from langchain.output_parsers import StructuredOutputParser
@@ -52,7 +54,6 @@ def generate_code(input:str):
         format_instructions=format_instructions
     )
     return model.invoke(messages)
-print(generate_code("Write a program for hollow rectangle pattern in c"))
 
 def scrape_github(url):
     response = requests.get(url)
