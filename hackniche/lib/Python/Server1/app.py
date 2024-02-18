@@ -123,7 +123,8 @@ def langchain_agent():
     data = request.get_json()  # Get the JSON data from the POST request
     query = data.get('query')  # Extract the 'query' field from the JSON data
     result = langchain_database.query(query)  # Call the function with the query
-    return jsonify(result)
+    return jsonify({"result": result})  # Return the result as JSON
+
 
 if __name__ == "__main__":
   app.run() 

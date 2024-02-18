@@ -36,9 +36,11 @@ def generate_code(input:str):
 
     prompt_template="""
             Generate a program for the following query in the users style.
-            the user code style is: Writing comments for every function and variable.
+            
+            the user code style is: 
             
             
+            Consider the schema provided by users:
             
             {input}
             {format_instructions}
