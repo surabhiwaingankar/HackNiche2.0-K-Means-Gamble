@@ -25,7 +25,7 @@ def analyse_code(input:str):
     )
     code_duplication_schema=ResponseSchema(
         name="code_duplication",
-        description="This is the code duplication percentage"
+        description="This is the code duplication fraction count."
     )
     bug_detection_schema=ResponseSchema(
         name="bug_detection",
@@ -62,6 +62,7 @@ def analyse_code(input:str):
     #         """ 
     prompt_template = """
     Analysis of the code provided on the following basis:
+    Everything is to be provided in numeric count.
             Syntax and Style Check:
             Code Smells Count : 
             Code Duplication Percentage:
