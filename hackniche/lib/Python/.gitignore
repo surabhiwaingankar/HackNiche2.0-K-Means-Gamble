@@ -1,3 +1,6 @@
+venv/
+venv3.10/
+venv-3.12/
 venv-3.12/
 venv3.10/
 .env

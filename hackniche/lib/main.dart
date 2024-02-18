@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('Something went wrong!');
           } else {
-            return LandingPage();
+            return CodeAnalysisDashboard();
           }
         },
       ),

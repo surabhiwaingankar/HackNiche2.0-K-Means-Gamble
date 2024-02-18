@@ -4,6 +4,7 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackniche/global/globalvariables.dart';
+import 'package:hackniche/screens/code_analysis.dart';
 import 'package:http/http.dart ' as http;
 
 import '../widgets/nav_button.dart';
@@ -146,7 +147,9 @@ Future<void> getData(ChatMessage m) async {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 NavButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>CodeAnalysisDashboard()));
+                                  },
                                   child: 'Code analysis',
                                   height: 42,
                                   width: 250,
