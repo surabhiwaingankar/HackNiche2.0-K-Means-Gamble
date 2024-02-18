@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hackniche/global/globalvariables.dart';
 import 'package:hackniche/screens/code_analysis.dart';
+import 'package:hackniche/screens/langchain_help.dart';
 import 'package:http/http.dart ' as http;
 
 import '../widgets/nav_button.dart';
@@ -162,7 +163,9 @@ Future<void> getData(ChatMessage m) async {
                                   width: 10,
                                 ),
                                 NavButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LanchainHelp()));  
+                                  },
                                   child: 'Langchain help',
                                   height: 42,
                                   width: 300,

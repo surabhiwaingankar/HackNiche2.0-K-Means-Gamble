@@ -4,14 +4,16 @@ import base64
 import code_generator, code_analysis
 import json
 import bs4
+from flask_cors import CORS
 app = Flask(__name__)
-# from embedchain import App
-# langchain_database = App()
-# langchain_database.add("https://python.langchain.com/docs/modules/")
-# langchain_database.add("https://python.langchain.com/docs/modules/model_io/")
-# langchain_database.add("https://python.langchain.com/docs/modules/agents/")
-# langchain_database.add("https://python.langchain.com/docs/modules/agents/tools/")
-# langchain_database.add("https://python.langchain.com/docs/modules/chains")
+CORS(app)
+from embedchain import App
+langchain_database = App()
+langchain_database.add("https://python.langchain.com/docs/modules/")
+langchain_database.add("https://python.langchain.com/docs/modules/model_io/")
+langchain_database.add("https://python.langchain.com/docs/modules/agents/")
+langchain_database.add("https://python.langchain.com/docs/modules/agents/tools/")
+langchain_database.add("https://python.langchain.com/docs/modules/chains")
 
 def slice_json(content):
     start_index = content.find('{')

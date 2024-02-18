@@ -17,13 +17,14 @@ class EditRepository extends StatefulWidget {
 class _EditRepositoryState extends State<EditRepository> {
   TextEditingController _nameController = TextEditingController(); 
   TextEditingController _fileController = TextEditingController();
+  String tst = "test.py";
   @override
   Widget build(BuildContext context) {
 
     createFile() async {
       const url = '${GlobalVariables.url}/upload/file';
 
-  Map<String, dynamic> data = {"username":widget.username,"token":widget.apiKey,"repo_name":_nameController.text,"file_name":base64Encode(utf8.encode(_fileController.text) )};
+  Map<String, dynamic> data = {"username":widget.username,"token":widget.apiKey,"repo_name":_nameController.text,"encoded_file_data":base64Encode(utf8.encode(_fileController.text) ),"file_name":tst};
   var encodedData = jsonEncode(data);
 
   final response = await http.post(

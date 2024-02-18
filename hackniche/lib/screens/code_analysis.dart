@@ -28,7 +28,8 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
   dynamic spaceComplexity;
   dynamic timeComplexity;
   dynamic improve;
-  bool isLoading = false;
+  bool isLoading = true;
+  bool isClicked =false;
 
   @override
   void initState() {
@@ -57,9 +58,9 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
       Map<String, dynamic> data = {"input": codeData};
       var encodedData = jsonEncode(data);
 
-      setState(() {
-        isLoading = true;
-      });
+      // setState(() {
+      //   isLoading = true;
+      // });
 
       final response = await http.post(
         Uri.parse(url),
@@ -71,13 +72,13 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> decodedData = jsonDecode(response.body);
-        bugDetection = decodedData['bug_detection'];
-        codeDuplication = decodedData['code_duplication'];
-        codeSmell = decodedData['code_smell'];
-        defects = decodedData['defects'];
-        spaceComplexity = decodedData['space_complexity'];
-        timeComplexity = decodedData['time_complexity'];
-        improve = decodedData['ways_to_improve'];
+        bugDetection =double.parse(decodedData['bug_detection'])==null?1.0:double.parse(decodedData['bug_detection']) ;
+        codeDuplication =double.parse(decodedData['code_duplication'])==null?1.0:double.parse(decodedData['code_duplication']) ;
+        codeSmell =double.parse(decodedData['code_smell'])==null?1.0:double.parse(decodedData['code_smell']) ;
+        defects = double.parse(decodedData['defects'])==null?1.0:double.parse(decodedData['defects']); 
+        spaceComplexity =double.parse(decodedData['space_complexity']) ;
+        timeComplexity = double.parse(decodedData['time_complexity']);
+        improve = double.parse(decodedData['ways_to_improve'])==null?'The code is optimmal':double.parse(decodedData['ways_to_improve']);
 
         print('Response data: $decodedData');
       } else {
@@ -88,6 +89,7 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
     } finally {
       setState(() {
         isLoading = false;
+        isClicked=true;
       });
     }
   }
@@ -150,11 +152,9 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                           ),
                         ),
                         child:isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
+                                ? Container(
+
+                                )
                                 : PieChart(
                           PieChartData(
                             centerSpaceRadius: 2,
@@ -162,22 +162,22 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                             sectionsSpace: 2,
                             sections: [
                               PieChartSectionData(
-                                value:  1,
+                                value:   codeSmell??1.0,
                                 color: Colors.purple,
                                 radius: 150,
                               ),
                               PieChartSectionData(
-                                value: 5,
+                                value: codeDuplication??1.0,
                                 color: Colors.amber,
                                 radius: 150,
                               ),
                               PieChartSectionData(
-                                value: bugDetection??1,
+                                value: bugDetection??1.0,
                                 color: Colors.green,
                                 radius: 150,
                               ),
                               PieChartSectionData(
-                                value: defects??1,
+                                value: defects??1.0,
                                 color: Colors.orange,
                                 radius: 150,
                               ),
@@ -189,11 +189,9 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                       // Line Chart
                       Expanded(
                         child: isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
+                                ? Container(
+                                  
+                                )
                                 :Container(
                           decoration: BoxDecoration(
                             color: Color.fromRGBO(13, 13, 13, 1),
@@ -215,12 +213,6 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                                   barWidth: 3,
                                   color: Colors.red,
                                 ),
-                                LineChartBarData(
-                                  spots: dummyData3,
-                                  isCurved: false,
-                                  barWidth: 3,
-                                  color: Colors.blue,
-                                ),
                               ],
                             ),
                           ),
@@ -234,11 +226,9 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                     children: [
                       Expanded(
                         child: isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
+                                ? Container(
+                                  
+                                )
                                 :Container(
                           height: MediaQuery.of(context).size.height * 0.3,
                           decoration: BoxDecoration(
@@ -252,11 +242,9 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
+                                ? Container(
+                                  
+                                )
                                 : Expanded(
                                   child: SingleChildScrollView(
                                     child: Column(
@@ -294,11 +282,9 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
                             ),
                           ),
                           child: isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
+                                ? Container(
+                                  
+                                )
                                 : Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
@@ -318,15 +304,7 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
               ),
             ),
           ),
-          if (isLoading)
-            Container(
-              color: Colors.black.withOpacity(0.5),
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+          
         ],
       ),
     );

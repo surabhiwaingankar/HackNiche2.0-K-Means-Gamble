@@ -63,7 +63,7 @@ class _LandingPageState extends State<LandingPage> {
                       const Padding(
                         padding: EdgeInsets.only(left: 15),
                         child: Text(
-                          'Title',
+                          'CODACH',
                           style: TextStyle(color: Colors.white, fontSize: 35),
                         ),
                       ),

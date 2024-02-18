@@ -21,19 +21,19 @@ model = ChatOpenAI(model="gpt-4-turbo-preview", temperature=0)
 def analyse_code(input:str):
     code_smell_schema=ResponseSchema(
         name="code_smell",
-        description="This is the code smell count"
+        description="This is the code smell count. Should be a double value"
     )
     code_duplication_schema=ResponseSchema(
         name="code_duplication",
-        description="This is the code duplication fraction count."
+        description="This is the code duplication fraction count. Should be a double value"
     )
     bug_detection_schema=ResponseSchema(
         name="bug_detection",
-        description="This is the bug detection count"
+        description="This is the bug detection count.Should be a double value."
     )
     defects_schema=ResponseSchema(
         name="defects",
-        description="This is the defects count"
+        description="This is the defects count.Should be a double value."
     )
     time_complexity_schema=ResponseSchema(
         name="time_complexity",
@@ -63,7 +63,7 @@ def analyse_code(input:str):
     prompt_template = """
     Analysis of the code provided on the following basis:
     Everything is to be provided in numeric count.
-            Syntax and Style Check:
+            Syntax and Style Check: 
             Code Smells Count : 
             Code Duplication Percentage:
             Bug Detection :
