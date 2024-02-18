@@ -5,7 +5,13 @@ import code_generator, code_analysis, langchain_agent
 import json
 import bs4
 app = Flask(__name__)
-
+from embedchain import App
+langchain_database = App()
+langchain_database.add("https://python.langchain.com/docs/modules/")
+langchain_database.add("https://python.langchain.com/docs/modules/model_io/")
+langchain_database.add("https://python.langchain.com/docs/modules/agents/")
+langchain_database.add("https://python.langchain.com/docs/modules/agents/tools/")
+langchain_database.add("https://python.langchain.com/docs/modules/chains")
 @app.route('/create/repo', methods=['POST'])
 def create_repo():
     data = request.get_json()
@@ -113,24 +119,11 @@ def analyze_code():
 # def ui_to_code():
     
 @app.route('/generate/langchain', methods=['POST'])
-def scrape_docs():
-    data = request.get_json()
-    input = data["input"]
-    output = langchain_agent.scraping_documentation(input)
-    print(output)
-    string_output= str(output)
-    response=slice_json(string_output)
-    return response
-
-def slice_json(content):
-    start_index = content.find('{')
-    end_index = content.rfind('}')
-    json_part = content[start_index:end_index+1]
-    # print(json_part)
-    unescaped_json_string = json_part.encode().decode('unicode_escape')
-    print(unescaped_json_string)
-    json_data = json.loads(unescaped_json_string)
-    return json_data
+def langchain_agent():
+    data = request.get_json()  # Get the JSON data from the POST request
+    query = data.get('query')  # Extract the 'query' field from the JSON data
+    result = langchain_database.query(query)  # Call the function with the query
+    return jsonify(result)
 
 if __name__ == "__main__":
   app.run() 
