@@ -28,7 +28,8 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
   dynamic spaceComplexity;
   dynamic timeComplexity;
   dynamic improve;
-  bool isLoading = false;
+  bool isLoading = true;
+  bool isClicked =false;
 
   @override
   void initState() {
@@ -57,9 +58,9 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
       Map<String, dynamic> data = {"input": codeData};
       var encodedData = jsonEncode(data);
 
-      setState(() {
-        isLoading = true;
-      });
+      // setState(() {
+      //   isLoading = true;
+      // });
 
       final response = await http.post(
         Uri.parse(url),
@@ -88,6 +89,7 @@ class _CodeAnalysisDashboardState extends State<CodeAnalysisDashboard> {
     } finally {
       setState(() {
         isLoading = false;
+        isClicked=true;
       });
     }
   }
