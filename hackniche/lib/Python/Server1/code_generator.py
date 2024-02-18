@@ -2,7 +2,8 @@ from dotenv import load_dotenv
 import os
 # Load .env file
 load_dotenv()
-
+from bs4 import BeautifulSoup
+import requests
 # Get OpenAI keys from .env file
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
@@ -10,6 +11,7 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.output_parsers import ResponseSchema
 from langchain.output_parsers import StructuredOutputParser
 model = ChatOpenAI(model="gpt-4-turbo-preview", temperature=0)
+
 def generate_code(input:str):
     code_schema=ResponseSchema(
         name="code",
@@ -33,8 +35,12 @@ def generate_code(input:str):
     
 
     prompt_template="""
-            Generate a program for the given input.Explain the code generated.
-            {input}.
+            Generate a program for the following query in the users style.
+            the user code style is: Writing comments for every function and variable.
+            
+            
+            
+            {input}
             {format_instructions}
             """ 
 
@@ -44,6 +50,16 @@ def generate_code(input:str):
         format_instructions=format_instructions
     )
     return model.invoke(messages)
-# print(generate_code("Write a program for hollow rectangle pattern in c"))
+print(generate_code("Write a program for hollow rectangle pattern in c"))
 
+def scrape_github(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
 
+    # Extract data from the parsed HTML
+    # For example, to get the content of a specific file:
+    file_content = soup.find('text_area').text
+
+    return file_content
+
+# print(scrape_github('https://github.com/surabhiwaingankar/Natours/blob/main/controllers/authenticationController.js'))
