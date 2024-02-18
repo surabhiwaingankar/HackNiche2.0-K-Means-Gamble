@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hackniche/widgets/nav_button.dart';
 
 class EditRepository extends StatefulWidget {
-  const EditRepository({super.key});
+  final String username;
+  final String apiKey;
+  const EditRepository({super.key,required this.username,required this.apiKey});
 
   @override
   State<EditRepository> createState() => _EditRepositoryState();
@@ -13,6 +15,12 @@ class _EditRepositoryState extends State<EditRepository> {
   TextEditingController _fileController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
+    createFile(){
+      
+      
+    }
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(26, 26, 26, 1),
       body: Padding(
